@@ -38,7 +38,7 @@ defmodule MyApp.Application do
       {Elix.MyTicker, []}
     ]
 
-    opts = [strategy: :one_for_one, name: Elix.Supervisor]
+    opts = [strategy: :one_for_one, name: MyApp.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end
