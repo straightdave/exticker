@@ -35,7 +35,7 @@ defmodule MyApp.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      {Elix.MyTicker, []}
+      {MyApp.MyTicker, []}
     ]
 
     opts = [strategy: :one_for_one, name: MyApp.Supervisor]
