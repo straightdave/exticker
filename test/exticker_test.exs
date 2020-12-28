@@ -1,8 +1,8 @@
 defmodule MyTicker do
-  use ExTicker, init_wait: 0, interval: 1000, do: :work
+  use ExTicker
 
   def work() do
-    :ok
+    IO.puts("hello")
   end
 end
 
@@ -10,7 +10,10 @@ defmodule ExTickerTest do
   use ExUnit.Case
   doctest ExTicker
 
-  test "do ok" do
-    assert MyTicker.work() == :ok
+  test "start ok" do
+    MyTicker.start_link([])
+    MyTicker.start()
+    :timer.sleep(5000)
+    MyTicker.stop()
   end
 end

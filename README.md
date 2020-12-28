@@ -4,44 +4,43 @@ Simple Elixir ticker.
 
 ## Basic usage
 
-Defining your ticker:
+Defining your periodical worker:
 
 ```elixir
-defmodule MyTicker do
-  # must provide 3 options in order:
-  # init_wait -> time to start in the beginning (ms)
-  # interval  -> interval (ms)
-  # do        -> refer to custom function to trigger
-  use ExTicker, init_wait: 0, interval: 1000, do: :work
+defmodule MyWorker do
+  # Options:
+  # - interval  -> interval (ms), default 1000
+  # - do        -> function to trigger, default :work
+  use ExTicker, interval: 5000, do: :work
 
   def work() do
     # .. do some stuff ...
-
-    # returning :ok -> contine ad infinitum
-    :ok
-
-    # returning others -> quit, e.g:
-    # :quit
   end
 end
 ```
 
-Add your ticker to the supervisor:
-
+You create it with:
 ```elixir
-defmodule MyApp.Application do
-  use Application
+MyWorker.start_link([])
+```
+> With this `#start_link` function, *MyWorker* could be started by your supervisor:
+>```
+>children = [
+>  {MyWorker, []}
+>]
+>
+>opts = [strategy: :one_for_one, name: MySupervisor]
+>Supervisor.start_link(children, opts)
+>```
 
-  @impl true
-  def start(_type, _args) do
-    children = [
-      {MyApp.MyTicker, []}
-    ]
-
-    opts = [strategy: :one_for_one, name: MyApp.Supervisor]
-    Supervisor.start_link(children, opts)
-  end
-end
+After creation, you can start / stop it with:
+```elixir
+MyWorker.start()
+# begin to do some thing periodically
+MyWorker.stop()
+# stopped
+MyWorker.start()
+# restarted ...
 ```
 
 ## Installation

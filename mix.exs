@@ -4,7 +4,7 @@ defmodule ExTicker.MixProject do
   def project do
     [
       app: :exticker,
-      version: "0.1.0",
+      version: "0.1.1",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -21,7 +21,7 @@ defmodule ExTicker.MixProject do
   end
 
   defp description() do
-    "Simple Elixir ticker"
+    "Simple Elixir Ticker"
   end
 
   # Run "mix help deps" to learn about dependencies.
