@@ -11,7 +11,7 @@ defmodule ExTickerTest do
   doctest ExTicker
 
   test "start ok" do
-    MyTicker.start_link([])
+    MyTicker.new()
     MyTicker.start()
     :timer.sleep(5000)
     MyTicker.stop()

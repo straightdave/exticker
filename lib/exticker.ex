@@ -28,27 +28,38 @@ defmodule ExTicker do
       use GenServer
 
       @me __MODULE__
-
       @interval unquote(intv)
       @work_fn unquote(work_fn)
 
+      #####################
+      ## Public API
+      #####################
+
       @doc """
-      start it
+      Create a Ticker instance (start_link its GenServer behind the curtain).
+      This is required before calling `start()` if not in a supervised application.
+      """
+      def new() do
+        start_link([])
+      end
+
+      @doc """
+      Start running.
       """
       def start() do
         Kernel.send(@me, {:update, :running})
       end
 
       @doc """
-      stop it
+      Stop running. Call `start()` to resume.
       """
       def stop() do
         Kernel.send(@me, {:update, :stopped})
       end
 
-      ########################
-      ## implement GenServer
-      ##
+      ############################
+      ## Internal implementation
+      ############################
 
       def start_link(args) do
         GenServer.start_link(@me, args, name: @me)

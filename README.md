@@ -21,9 +21,9 @@ end
 
 You create it with:
 ```elixir
-MyWorker.start_link([])
+MyWorker.new() # it calls `MyWork.start_link([])` behind.
 ```
-> With this `#start_link` function, *MyWorker* could be started by your supervisor:
+> With this `#start_link(any)` function, *MyWorker* could be started by your supervisor:
 >```
 >children = [
 >  {MyWorker, []}
@@ -40,7 +40,35 @@ MyWorker.start()
 MyWorker.stop()
 # stopped
 MyWorker.start()
-# restarted ...
+# resumed ...
+```
+
+### Test it in IEx
+```
+Interactive Elixir (1.11.2) - press Ctrl+C to exit (type h() ENTER for help)
+iex(1)> defmodule My do
+...(1)>   use ExTicker
+...(1)>   def work() do
+...(1)>     IO.puts("hello")
+...(1)>   end
+...(1)> end
+{:module, My,
+ <<70, 79, 82, 49, 0, 0, 19, 184, 66, 69, 65, 77, 65, 116, 85, 56, 0, 0, 1, 204,
+   0, 0, 0, 49, 9, 69, 108, 105, 120, 105, 114, 46, 77, 121, 8, 95, 95, 105,
+   110, 102, 111, 95, 95, 10, 97, 116, 116, ...>>, {:work, 0}}
+iex(2)> My.new()
+{:ok, #PID<0.231.0>}
+iex(3)> My.start()
+{:update, :running}
+hello
+hello
+hello
+hello
+hello
+hello
+iex(4)> My.stop()
+{:update, :stopped}
+iex(5)>
 ```
 
 ## Installation
